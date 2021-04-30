@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets" >
+	  
+<ui:composition template="_template.xhtml">
+	<ui:define name="content">
+		<p:messages id="messages"><p:autoUpdate /></p:messages>
+			    <h:form>
+		<p:card class="card-form">
+		    <f:facet name="header">
+		    </f:facet>
+		    <f:facet name="title">
+		        Novo Usuario
+		    </f:facet>
+		    <f:facet name="subtitle">
+		        Cadastre o seu Usuario
+		    </f:facet>
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome"/>
+						<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true">
+							<f:ajax event="blur" render="messages"/>
+						</p:inputText>
+						<p:outputLabel for="sobrenome" value="Sobrenome"/>
+						<p:inputText id="sobrenome" value="#{usuarioBean.usuario.sobrenome}" validatorMessage="O campo deve ter pelo menos 10 caracteres">
+							<f:validateLength minimum="10" maximum="255"/>
+							<f:ajax event="blur" render="messages"/>
+						</p:inputText>
+						
+						<p:outputLabel for="idade" value="Idade"/>
+						<p:inputText id="idade"  value="#{usuarioBean.usuario.idade}" required="true" validatorMessage="A idade deve ser positiva">
+							<f:validateLongRange minimum="0"/>
+							<f:ajax event="blur" render="messages"/>
+						</p:inputText>
+						
+					</h:panelGrid>
+		    <f:facet name="footer">
+		        <p:commandButton icon="pi pi-check" value="Salvar" action="#{usuarioBean.salvar}">
+ 					<p:ajax execute="@form" update="table-usuarios"/>
+		        </p:commandButton>
+		        <p:commandButton icon="pi pi-times" value="Cancelar" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+		    </f:facet>
+		</p:card>
+		
+		</h:form>
+		<h:form id="table-usuarios" >
+			<div class="card">
+				<p:dataTable var="usuario" value="#{usuarioBean.usuarios}">
+					<p:column headerText="Nome">
+						<h:outputText value="#{usuario.nome}"/>
+					</p:column>
+					<p:column headerText="Sobrenome">
+						<h:outputText value="#{usuario.sobrenome}"/>
+					</p:column>
+					<p:column headerText="Idade">
+						<h:outputText value="#{usuario.idade}"/>
+					</p:column>
+				</p:dataTable>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+	
+</html>
